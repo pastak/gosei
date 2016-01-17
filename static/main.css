@@ -1,0 +1,14 @@
+.share-btns > div {
+  display: inline-block;
+  vertical-align: top;
+}
+.share-btns > div > .fb-like > span {
+  vertical-align: top !important;
+}
+#mainCanvas {
+  border: 1px solid black;
+}
+#pastakWrapper {
+  position: absolute;
+  z-index: 100;
+}

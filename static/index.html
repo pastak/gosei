@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <title>gosei.pastak.net</title>
+    <meta name="viewport" content="width=device-width" />
+    <link rel='stylesheet' type='text/css' href='main.css' />
+  </head>
+  <body>
+    <div id="fb-root"></div>
+    <script>(function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/ja_KS/sdk.js#xfbml=1&version=v2.5&appId=267101093318755";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
+    <h1>gosei.pastak.net</h1>
+    <div class='share-btns'>
+      <div>
+        <a href="https://twitter.com/share" class="twitter-share-button"{count} data-related="pastak">Tweet</a>
+        <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+      </div>
+      <div>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-lang="en" title="このエントリーをはてなブックマークに追加"><img src="https://b.st-hatena.com/images/entry-button/button-only@2x.png" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="https://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
+      </div>
+      <div>
+        <div class="fb-like" data-href="https://gosei.pastak.net/" data-layout="button" data-action="like" data-show-faces="false" data-share="true"></div>
+      </div>
+    </div>
+    <div id='mainView'>
+      load image from URL
+      <input type='text' style='width: 600px' id='urlInput' value="https://41.media.tumblr.com/6ca3ca141c37afe9a5d1a010836272a4/tumblr_o0di50aCFe1qaqtc9o1_250.jpg"/>
+      <button id='loadButton'>load</button>
+      <button id='saveButton'>save</button>
+      <br />
+      <div id='canvasWrapper'>
+        <div id='pastakWrapper'>
+          <canvas id='pastakCanvas'></canvas>
+        </div>
+        <canvas id='mainCanvas'></canvas>
+      </div>
+      <br />
+    </div>
+    <script src='main.js'></script>
+  </body>
+</html>
