@@ -6,7 +6,21 @@
   const saveButton = document.getElementById('saveButton')
   const pastakWrapper = document.getElementById('pastakWrapper')
   const canvasWrapper = document.getElementById('canvasWrapper')
+  let preData = null
+  const hasPreData = location.search.match(/\^?data=(.*)/)
+  if (hasPreData) {
+    preData = JSON.parse(decodeURIComponent(hasPreData[1]))
+  }
   const pastakPos = {x: 0, y: 0}
+  const update = function () {
+    history.pushState('save', '', `/?data=${JSON.stringify({
+        x: pastakPos.x,
+        y: pastakPos.y,
+        width: pastakCanvas.width,
+        height: pastakCanvas.height,
+        imageUrl: urlInput.value
+      })}`)
+  }
   const loadImage = function (url) {
     return new Promise(function (resolve) {
       const img = new Image()
@@ -26,33 +40,50 @@
     return img
   }
   const drawPastak2Canvas = function (img) {
-    const pastakImg = new Image()
-    pastakImg.onload = function () {
-      const pastakCanvas = document.getElementById('pastakCanvas')
-      const pastakCanvasContext = pastakCanvas.getContext('2d')
-      // 画像の方が小さければ高さを合わせる
-      if (img.height < pastakImg.height) {
-        const rate = img.height / pastakImg.height
-        pastakCanvas.width = pastakImg.width * rate
-        pastakCanvas.height = pastakImg.height * rate
-      } else {
-        pastakCanvas.width = img.width
-        pastakCanvas.height = img.height
+    return new Promise(function (resolve) {
+      const pastakImg = new Image()
+      pastakImg.onload = function () {
+        const pastakCanvas = document.getElementById('pastakCanvas')
+        const pastakCanvasContext = pastakCanvas.getContext('2d')
+        // 画像の方が小さければ高さを合わせる
+        if (img.height < pastakImg.height) {
+          const rate = img.height / pastakImg.height
+          pastakCanvas.width = pastakImg.width * rate
+          pastakCanvas.height = pastakImg.height * rate
+        } else {
+          pastakCanvas.width = img.width
+          pastakCanvas.height = img.height
+        }
+        if (preData) {
+          pastakPos.x = preData.x
+          pastakPos.y = preData.y
+          preData = null
+        } else {
+          pastakPos.x = Math.random() * pastakCanvas.width
+          pastakPos.y = Math.random() * pastakCanvas.height
+        }
+        pastakCanvasContext.drawImage(pastakImg, 0, 0, pastakCanvas.width, pastakCanvas.height)
+        pastakWrapper.style.left = pastakPos.x + 'px'
+        pastakWrapper.style.top = pastakPos.y + 'px'
+        resolve()
       }
-      pastakPos.x = Math.random() * pastakCanvas.width
-      pastakPos.y = Math.random() * pastakCanvas.height
-      pastakCanvasContext.drawImage(pastakImg, 0, 0, pastakCanvas.width, pastakCanvas.height)
-      pastakWrapper.style.left = pastakPos.x + 'px'
-      pastakWrapper.style.top = pastakPos.y + 'px'
-    }
-    pastakImg.src = '/pastak.png'
+      pastakImg.src = '/pastak.png'
+    })
   }
   const loadBtn = document.getElementById('loadButton')
   loadBtn.addEventListener('click', function () {
     loadImage(urlInput.value)
       .then(drawImage2Canvas)
       .then(drawPastak2Canvas)
+      .then(update)
   })
+  const shareButton = document.getElementById('shareButton')
+  shareButton.addEventListener('click', function () {
+    window.open(`https://twitter.com/share?text=&url=${encodeURIComponent(location.href)}`)
+  })
+  if (preData) {
+    loadImage(preData.imageUrl).then(drawImage2Canvas).then(drawPastak2Canvas)
+  }
   saveButton.addEventListener('click', function () {
     fetch('/save', {
       method: 'POST',
@@ -69,6 +100,9 @@
       })
     })
     .then((res) => res.json())
-    .then((json) => window.open(json.dataUrl))
+    .then((json) => {
+      update()
+      window.open(json.dataUrl)
+    })
   })
 })()
