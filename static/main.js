@@ -7,19 +7,28 @@
   const pastakWrapper = document.getElementById('pastakWrapper')
   const canvasWrapper = document.getElementById('canvasWrapper')
   let preData = null
-  const hasPreData = location.search.match(/\^?data=(.*)/)
-  if (hasPreData) {
-    preData = JSON.parse(decodeURIComponent(hasPreData[1]))
+  if (location.search.substr(1)) {
+    const queryString = decodeURIComponent(location.search.substr(1))
+    const queries = queryString.split('&')
+    if (queries) {
+      preData = {}
+      queries.forEach((q) => {
+        const tmp = q.split('=')
+        preData[tmp[0]] = tmp[1]
+      })
+    }
   }
   const pastakPos = {x: 0, y: 0}
   const update = function () {
-    history.pushState('save', '', `/?data=${JSON.stringify({
-        x: pastakPos.x,
-        y: pastakPos.y,
-        width: pastakCanvas.width,
-        height: pastakCanvas.height,
-        imageUrl: urlInput.value
-      })}`)
+    const obj = {
+      x: pastakPos.x,
+      y: pastakPos.y,
+      width: pastakCanvas.width,
+      height: pastakCanvas.height,
+      imageUrl: urlInput.value
+    }
+    const query = Object.keys(obj).map((key) => `${key}=${encodeURIComponent(obj[key])}`).join('&')
+    history.pushState('save', '', `/?${query}`)
   }
   const loadImage = function (url) {
     return new Promise(function (resolve) {
