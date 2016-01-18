@@ -96,6 +96,47 @@
   if (preData) {
     loadImage(preData.imageUrl).then(drawPastak2Canvas)
   }
+  let resizeStart = {}
+  let resizeStarted = false
+  const resizeMouseMove = function (event) {
+    event.stopPropagation()
+    if (!resizeStarted) return
+    const _width = Number(pastakCanvas.width) + event.pageX - resizeStart.x
+    const _height = Number(pastakCanvas.height) *  (_width / Number(pastakCanvas.width))
+    context.clearRect(0, 0, canvas.width, canvas.height)
+    context.drawImage(
+      pastakImg,
+      pastakPos.x - canvasWrapper.offsetLeft,
+      pastakPos.y - canvasWrapper.offsetTop,
+      _width,
+      _height
+    )
+  }
+  const resizeMouseUp = function (event) {
+    event.stopPropagation()
+    if (!resizeStarted) return
+    resizeStarted = false
+    const pastakCanvasWidth = Number(pastakCanvas.width)
+    pastakCanvas.width = Number(pastakCanvas.width) + event.pageX - resizeStart.x
+    pastakCanvas.height = Number(pastakCanvas.height) * (Number(pastakCanvas.width) / pastakCanvasWidth)
+    context.drawImage(
+      pastakImg,
+      pastakPos.x - canvasWrapper.offsetLeft,
+      pastakPos.y - canvasWrapper.offsetTop,
+      pastakCanvas.width,
+      pastakCanvas.height
+    )
+    document.body.removeEventListener('mousemove', resizeMouseMove)
+    document.body.removeEventListener('mouseup', resizeMouseUp)
+  }
+  document.getElementsByClassName('resize-handle')[0].addEventListener('mousedown', (event) => {
+    if (resizeStarted) return
+    event.stopPropagation()
+    resizeStarted = true
+    resizeStart = {x: event.pageX, y: event.pageY}
+    document.body.addEventListener('mousemove', resizeMouseMove)
+    document.body.addEventListener('mouseup', resizeMouseUp)
+  })
   const mouseMove = function (event) {
     if (!moving) return
     const tmpPastakPos = {

@@ -13,10 +13,35 @@
 #pastakWrapper {
   position: absolute;
   z-index: 100;
-  border: solid 2px rgba(202, 255, 166, 0.87);
+  border: solid 2px rgba(60, 128, 15, 0.87);
   z-index: 1000;
+  cursor: move;
 }
 #baseImg {
   position: absolute;
   z-index: 1;
+}
+.resize-handle {
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  z-index: 1001;
+  cursor: crosshair;
+  background-color: rgba(27, 191, 214, 0.52);
+}
+.resize-handle.lt {
+  top: -8px;
+  left: -8px;
+}
+.resize-handle.lb {
+  bottom: -8px;
+  left: -8px;
+}
+.resize-handle.rt {
+  top: -8px;
+  right: -8px;
+}
+.resize-handle.rb {
+  bottom: -8px;
+  right: -8px;
 }
