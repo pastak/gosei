@@ -10,6 +10,7 @@
   const pastakImg = new Image()
   let moving = false
   let preData = null
+  let reducted = false
   if (location.search.substr(1)) {
     const queryString = decodeURIComponent(location.search.substr(1))
     const queries = queryString.split('&')
@@ -35,7 +36,8 @@
           y: pastakPos.y - canvasWrapper.offsetTop,
           width: pastakCanvas.width,
           height: pastakCanvas.height,
-          imageUrl: urlInput.value
+          imageUrl: urlInput.value,
+          reducted: reducted
         })
       })
       .then((res) => res.json())
@@ -76,6 +78,13 @@
     return new Promise(function (resolve) {
       const img = document.getElementById('baseImg')
       img.onload = function () {
+        reducted = false
+        if (img.width > 1200) {
+          const rate = 1200 / img.width
+          img.width = 1200
+          img.height = 1200 * rate
+          reducted = true
+        }
         canvas.width = img.width
         canvas.height = img.height
         resolve(img)

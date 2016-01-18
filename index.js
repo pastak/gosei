@@ -1,6 +1,7 @@
 'use strict'
 const app = new require('koa')()
 const spawn = require('child_process').spawn
+const execSync = require('child_process').execSync
 const path = require('path')
 const fs = require('fs')
 const request = require('request')
@@ -51,6 +52,9 @@ router
         .pipe(fs.createWriteStream(tmpFileFullPath))
         .on('close', function () {
           const resize = spawn('convert', ['-resize', `${reqBody.width}x`, path.resolve(__dirname, './static/pastak.png'), '-'])
+          if (reqBody.reducted) {
+            execSync(['convert', '-resize', '1200x', tmpFileFullPath, tmpFileFullPath].join(' '))
+          }
           const composite = spawn('convert', [
             tmpFileFullPath,
             '-',
