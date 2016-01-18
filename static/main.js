@@ -58,8 +58,8 @@
           pastakCanvas.width = pastakImg.width * rate
           pastakCanvas.height = pastakImg.height * rate
         } else {
-          pastakCanvas.width = img.width
-          pastakCanvas.height = img.height
+          pastakCanvas.width = pastakImg.width
+          pastakCanvas.height = pastakImg.height
         }
         if (preData) {
           pastakPos.x = preData.x
