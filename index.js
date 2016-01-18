@@ -10,7 +10,23 @@ const serve = require('koa-static')
 const router = require('koa-router')()
 const bodyParser = require('koa-bodyparser')
 
-router.post('/save', bodyParser(), function *(next) {
+router
+.post('/gyazo', bodyParser(), function *() {
+  const reqBody = this.request.body
+  this.body = yield new Promise(function (resolve) {
+    request.post({
+      url: 'https://upload.gyazo.com/api/upload/easy_auth',
+      form: {
+        client_id: '49c49db959afb1b4d9b75014691141ef467ac139eb3c91adc6688253608d863a',
+        image_url: reqBody.imageUrl,
+        referer_url: reqBody.url
+      }
+    }, function (error, res, body) {
+      resolve(body)
+    })
+  })
+})
+.post('/save', bodyParser(), function *(next) {
   const reqBody = this.request.body
   this.body = yield new Promise(function (resolve) {
     request.head(reqBody.imageUrl, function(error, response, body) {

@@ -22,6 +22,45 @@
     }
   }
   const pastakPos = {x: 0, y: 0}
+  const requestDataUrl = function () {
+    return new Promise(function (resolve) {
+      fetch('/save', {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          x: pastakPos.x - canvasWrapper.offsetLeft,
+          y: pastakPos.y - canvasWrapper.offsetTop,
+          width: pastakCanvas.width,
+          height: pastakCanvas.height,
+          imageUrl: urlInput.value
+        })
+      })
+      .then((res) => res.json())
+      .then((json) => {
+        update()
+        resolve(json.dataUrl)
+      })
+    })
+  }
+  const upload2Gyazo = function () {
+    requestDataUrl().then((url) => {
+      fetch('/gyazo', {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          imageUrl: url,
+          url: location.href
+        })
+      }).then((res) => res.json())
+      .then((json) => window.open(json.get_image_url))
+    })
+  }
   const update = function () {
     const obj = {
       x: pastakPos.x,
@@ -52,8 +91,12 @@
       pastakImg.onload = function () {
         const pastakCanvas = document.getElementById('pastakCanvas')
         const pastakCanvasContext = pastakCanvas.getContext('2d')
+        if (preData) {
+          pastakCanvas.width = preData.width
+          pastakCanvas.height = preData.height
+        }
         // 画像の方が小さければ高さを合わせる
-        if (img.height < pastakImg.height) {
+        else if (img.height < pastakImg.height) {
           const rate = img.height / pastakImg.height
           pastakCanvas.width = pastakImg.width * rate
           pastakCanvas.height = pastakImg.height * rate
@@ -182,24 +225,7 @@
     document.body.addEventListener('mouseup', mouseUp)
   })
   saveButton.addEventListener('click', function () {
-    fetch('/save', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        x: pastakPos.x - canvasWrapper.offsetLeft,
-        y: pastakPos.y - canvasWrapper.offsetTop,
-        width: pastakCanvas.width,
-        height: pastakCanvas.height,
-        imageUrl: urlInput.value
-      })
-    })
-    .then((res) => res.json())
-    .then((json) => {
-      update()
-      window.open(json.dataUrl)
-    })
+    requestDataUrl().then((url) => window.open(url))
   })
+  document.getElementById('gyazoButton').addEventListener('click', upload2Gyazo)
 })()
