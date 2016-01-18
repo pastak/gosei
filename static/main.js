@@ -37,7 +37,7 @@
           width: pastakCanvas.width,
           height: pastakCanvas.height,
           imageUrl: urlInput.value,
-          reductedHeight: canvas.height
+          reducted: reducted
         })
       })
       .then((res) => res.json())
@@ -80,10 +80,8 @@
       img.onload = function () {
         reducted = false
         if (img.width > 1200) {
-          console.log(img.width)
           const rate = 1200 / img.width
           img.width = 1200
-          img.height = img.height * rate
           reducted = true
         }
         canvas.width = img.width
