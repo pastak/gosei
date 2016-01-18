@@ -81,7 +81,8 @@
         resolve(img)
       }
       img.onerror = function () {
-        alert('Image load error')
+        alert('Image load error. Please set valid image URL')
+        preData = null
       }
       img.src = url
     })
