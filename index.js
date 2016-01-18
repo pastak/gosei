@@ -52,8 +52,8 @@ router
         .pipe(fs.createWriteStream(tmpFileFullPath))
         .on('close', function () {
           const resize = spawn('convert', ['-resize', `${reqBody.width}x`, path.resolve(__dirname, './static/pastak.png'), '-'])
-          if (reqBody.reducted) {
-            execSync(['convert', '-resize', '1200x', tmpFileFullPath, tmpFileFullPath].join(' '))
+          if (reqBody.reductedHeight) {
+            execSync(['convert', '-resize', '1200x'+reductedHeight, tmpFileFullPath, tmpFileFullPath].join(' '))
           }
           const composite = spawn('convert', [
             tmpFileFullPath,

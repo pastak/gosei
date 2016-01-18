@@ -37,7 +37,7 @@
           width: pastakCanvas.width,
           height: pastakCanvas.height,
           imageUrl: urlInput.value,
-          reducted: reducted
+          reductedHeight: canvas.height
         })
       })
       .then((res) => res.json())
