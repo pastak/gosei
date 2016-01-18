@@ -53,7 +53,8 @@ router
         .on('close', function () {
           const resize = spawn('convert', ['-resize', `${reqBody.width}x`, path.resolve(__dirname, './static/pastak.png'), '-'])
           if (reqBody.reductedHeight) {
-            execSync(['convert', '-resize', '1200x'+reqBody.reductedHeight, tmpFileFullPath, tmpFileFullPath].join(' '))
+            console.log(reqBody.reductedHeight)
+            execSync(['convert', '-resize', '1200x'+reqBody.reductedHeight+'!', tmpFileFullPath, tmpFileFullPath].join(' '))
           }
           const composite = spawn('convert', [
             tmpFileFullPath,
