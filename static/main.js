@@ -45,6 +45,8 @@
   const drawImage2Canvas = function (img) {
     canvas.width = img.width
     canvas.height = img.height
+    canvasWrapper.style.height = img.height + 'px'
+    canvasWrapper.style.width = img.width + 'px'
     context.drawImage(img, 0, 0)
     return img
   }
@@ -71,7 +73,13 @@
           pastakPos.x = Math.random() * pastakCanvas.width
           pastakPos.y = Math.random() * pastakCanvas.height
         }
-        pastakCanvasContext.drawImage(pastakImg, 0, 0, pastakCanvas.width, pastakCanvas.height)
+        context.drawImage(
+          pastakImg,
+          pastakPos.x - canvasWrapper.offsetLeft,
+          pastakPos.y - canvasWrapper.offsetTop,
+          pastakCanvas.width,
+          pastakCanvas.height
+        )
         pastakWrapper.style.left = pastakPos.x + 'px'
         pastakWrapper.style.top = pastakPos.y + 'px'
         resolve()
