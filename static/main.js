@@ -94,6 +94,7 @@
     window.open(`https://twitter.com/share?text=&url=${encodeURIComponent(location.href)}`)
   })
   if (preData) {
+    urlInput.value = preData.imageUrl
     loadImage(preData.imageUrl).then(drawPastak2Canvas)
   }
   let resizeStart = {}
