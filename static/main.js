@@ -228,4 +228,15 @@
     requestDataUrl().then((url) => window.open(url))
   })
   document.getElementById('gyazoButton').addEventListener('click', upload2Gyazo)
+  document.getElementById('toggleBorder').addEventListener('click', function () {
+    if (document.getElementById('mainCanvas').classList.contains('no-border')) {
+      document.getElementById('mainCanvas').classList.remove('no-border')
+      document.getElementById('pastakWrapper').classList.remove('no-border')
+      document.getElementsByClassName('resize-handle')[0].classList.remove('no-border')
+    } else {
+      document.getElementById('mainCanvas').classList.add('no-border')
+      document.getElementById('pastakWrapper').classList.add('no-border')
+      document.getElementsByClassName('resize-handle')[0].classList.add('no-border')
+    }
+  })
 })()

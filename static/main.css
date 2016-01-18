@@ -17,6 +17,9 @@
   z-index: 1000;
   cursor: move;
 }
+#pastakWrapper.no-border, #mainCanvas.no-border {
+  border: none;
+}
 #baseImg {
   position: absolute;
   z-index: 1;
@@ -28,6 +31,9 @@
   z-index: 1001;
   cursor: crosshair;
   background-color: rgba(27, 191, 214, 0.52);
+}
+.resize-handle.no-border {
+  background-color: inherit;
 }
 .resize-handle.lt {
   top: -8px;
