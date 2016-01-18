@@ -19,7 +19,7 @@ router
       form: {
         client_id: '49c49db959afb1b4d9b75014691141ef467ac139eb3c91adc6688253608d863a',
         image_url: reqBody.imageUrl,
-        title: 'gosei.pastak.net'
+        title: 'gosei.pastak.net',
         referer_url: reqBody.url
       }
     }, function (error, res, body) {
