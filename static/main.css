@@ -7,9 +7,16 @@
 }
 #mainCanvas {
   border: 1px solid black;
+  z-index: 100;
+  position: absolute;
 }
 #pastakWrapper {
   position: absolute;
   z-index: 100;
   border: solid 2px rgba(202, 255, 166, 0.87);
+  z-index: 1000;
+}
+#baseImg {
+  position: absolute;
+  z-index: 1;
 }
