@@ -1,6 +1,6 @@
 # gosei.pastak.net
 
-https://gosei.pastak.net
+http://gosei.pastak.net
 
 ## Samples
 
